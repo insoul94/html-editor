@@ -11,6 +11,7 @@ import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class View extends JFrame implements ActionListener {
     private Controller controller;
@@ -83,10 +84,10 @@ public class View extends JFrame implements ActionListener {
     public void initEditor() {
         htmlTextPane.setContentType("text/html");
         JScrollPane htmlTextScrollPane = new JScrollPane(htmlTextPane);
-        tabbedPane.add("HTML", htmlTextScrollPane);
+        tabbedPane.addTab("HTML", htmlTextScrollPane);
 
         JScrollPane plainTextScrollPane = new JScrollPane(plainTextPane);
-        tabbedPane.add("Text", plainTextScrollPane);
+        tabbedPane.addTab("Text", plainTextScrollPane);
 
         tabbedPane.setPreferredSize(new Dimension(400,300));
         getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -128,5 +129,26 @@ public class View extends JFrame implements ActionListener {
 
     public void resetUndo() {
         undoManager.discardAllEdits();
+    }
+
+    public boolean isHtmlTabSelected() {
+        return tabbedPane.getSelectedIndex() == 0;
+    }
+
+    public void selectHtmlTab() {
+        tabbedPane.setSelectedIndex(0);
+        resetUndo();
+    }
+
+    public void update() {
+        htmlTextPane.setDocument(controller.getDocument());
+    }
+
+    public void showAbout() {
+        JOptionPane.showMessageDialog(
+                this,
+                String.format("HTML Editor developed with openJDK 17 by J.Belan.\nv.%s 2022", controller.getAppVersion()),
+                "About",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 }

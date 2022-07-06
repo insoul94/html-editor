@@ -7,9 +7,18 @@ public class Controller {
     private View view;
     private HTMLDocument document;
     private File currentFile;
+    private final String appVersion = "0.1";
 
     public Controller(View view) {
         this.view = view;
+    }
+
+    public HTMLDocument getDocument() {
+        return document;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
     }
 
     public static void main(String[] args) {
