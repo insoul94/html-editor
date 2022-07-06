@@ -35,7 +35,7 @@ public class MenuHelper {
         JMenu helpMenu = new JMenu("Помощь");
         menuBar.add(helpMenu);
 
-        addMenuItem(helpMenu, "О программе", view);
+        addMenuItem(helpMenu, MenuCommand.ABOUT, view);
     }
 
     public static void initFontMenu(View view, JMenuBar menuBar) {
@@ -122,11 +122,11 @@ public class MenuHelper {
         JMenu fileMenu = new JMenu("Файл");
         menuBar.add(fileMenu);
 
-        addMenuItem(fileMenu, "Новый", view);
-        addMenuItem(fileMenu, "Открыть", view);
-        addMenuItem(fileMenu, "Сохранить", view);
-        addMenuItem(fileMenu, "Сохранить как...", view);
+        addMenuItem(fileMenu, MenuCommand.NEW, view);
+        addMenuItem(fileMenu, MenuCommand.OPEN, view);
+        addMenuItem(fileMenu, MenuCommand.SAVE, view);
+        addMenuItem(fileMenu, MenuCommand.SAVE_AS, view);
         fileMenu.addSeparator();
-        addMenuItem(fileMenu, "Выход", view);
+        addMenuItem(fileMenu, MenuCommand.EXIT, view);
     }
 }

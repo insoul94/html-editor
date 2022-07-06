@@ -11,7 +11,6 @@ import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class View extends JFrame implements ActionListener {
     private Controller controller;
@@ -52,7 +51,27 @@ public class View extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
+        switch (e.getActionCommand()) {
+            case MenuCommand.NEW:
+                controller.createNewDocument();
+                break;
+            case MenuCommand.OPEN:
+                controller.openDocument();
+                break;
+            case MenuCommand.SAVE:
+                controller.saveDocument();
+                break;
+            case MenuCommand.SAVE_AS:
+                controller.saveDocumentAs();
+                break;
+            case MenuCommand.EXIT:
+                controller.exit();
+                break;
+            case MenuCommand.ABOUT:
+                controller.showAbout();
+                break;
+        }
     }
 
     public void init() {
@@ -100,7 +119,15 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void selectedTabChanged() {
-
+        switch (tabbedPane.getSelectedIndex()) {
+            case 0:
+                controller.setPlainText(plainTextPane.getText());
+                break;
+            case 1:
+                plainTextPane.setText(controller.getPlainText());
+                break;
+        }
+        resetUndo();
     }
 
     public boolean canUndo() {
@@ -147,7 +174,7 @@ public class View extends JFrame implements ActionListener {
     public void showAbout() {
         JOptionPane.showMessageDialog(
                 this,
-                String.format("HTML Editor developed with openJDK 17 by J.Belan.\nv.%s 2022", controller.getAppVersion()),
+                String.format("HTML Editor developed with openJDK 17 by J.Belan.\nv.%s\n2022", controller.getAppVersion()),
                 "About",
                 JOptionPane.INFORMATION_MESSAGE);
     }
