@@ -1,10 +1,10 @@
 package com.javarush.task.task32.task3209;
 
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
-import java.io.File;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 
 public class Controller {
     private View view;
@@ -52,21 +52,26 @@ public class Controller {
     }
 
     public String getPlainText() {
-        StringWriter writer = new StringWriter();
-        try {
+
+        try (StringWriter writer = new StringWriter()) {
+
             new HTMLEditorKit().write(writer, document, 0, document.getLength());
-        } catch (Exception e) {
+            return writer.toString();
+
+        } catch (IOException | BadLocationException e) {
             ExceptionHandler.log(e);
         }
-        return writer.toString();
+        return null;
     }
 
     public void setPlainText(String text) {
         resetDocument();
-        StringReader reader = new StringReader(text);
-        try {
+
+        try (StringReader reader = new StringReader(text)) {
+
             new HTMLEditorKit().read(reader, document, 0);
-        } catch (Exception e) {
+
+        } catch (IOException | BadLocationException e) {
             ExceptionHandler.log(e);
         }
     }
@@ -87,7 +92,22 @@ public class Controller {
     }
 
     public void saveDocumentAs() {
+        view.selectHtmlTab();
 
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new HTMLFileFilter());
+
+        if (fileChooser.showSaveDialog(view) == JFileChooser.APPROVE_OPTION) {
+
+            currentFile = fileChooser.getSelectedFile();
+            view.setTitle(currentFile.getName());
+
+            try (FileWriter writer = new FileWriter(currentFile)) {
+                new HTMLEditorKit().write(writer, document, 0, document.getLength());
+            } catch (IOException | BadLocationException e) {
+                ExceptionHandler.log(e);
+            }
+        };
     }
 
     public void showAbout() {
