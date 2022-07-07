@@ -175,7 +175,7 @@ public class View extends JFrame implements ActionListener {
         JOptionPane.showMessageDialog(
                 this,
                 String.format("HTML Editor developed with openJDK 17 by J.Belan.\nv.%s\n2022", controller.getAppVersion()),
-                "About",
+                MenuCommand.ABOUT,
                 JOptionPane.INFORMATION_MESSAGE);
     }
 }
